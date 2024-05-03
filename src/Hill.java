@@ -25,14 +25,14 @@ public class Hill {
             System.out.println();
         }*/
 		
-		ArrayList<Integer> codNumérica = new ArrayList<>();
+		ArrayList<Integer> codNumerica = new ArrayList<>();
 		for(int i = 0; i < frase.length() ; i++) {
 			
-			codNumérica.add(utilidades.asignarNumerosAlf(alfabeto, frase.charAt(i)));
+			codNumerica.add(utilidades.asignarNumerosAlf(alfabeto, frase.charAt(i)));
 		}
 		
 		
-		int paddingTotal = (6-(codNumérica.size() % matrizC[0].length));
+		int paddingTotal = (6-(codNumerica.size() % matrizC[0].length));
 		
 		//solo le hago paddin si hay algun bloque suelto, no tengo que rellenar uno vacio
 		if(paddingTotal < 6) {
@@ -41,16 +41,16 @@ public class Hill {
 			
 			for(int aux = 0 ; aux < paddingTotal; aux++) {
 				
-				codNumérica.add(utilidades.generarAleatorios(alfabeto.length()));	
+				codNumerica.add(utilidades.generarAleatorios(alfabeto.length()));	
 			}
 		}
 		
 		//añadimos un último bloque con la longitud del mensaje y relleno de 0´s
 		
 		//imprimo la codificación numérica, con el padding y tal
-		for(int i = 0 ; i < codNumérica.size() ; i++) {
+		for(int i = 0 ; i < codNumerica.size() ; i++) {
 			
-			System.out.print(codNumérica.get(i) + " ");
+			System.out.print(codNumerica.get(i) + " ");
 		}
 		
 		
@@ -118,15 +118,48 @@ public class Hill {
 		for(int i = 0 ; i < arrayCocientes.length ; i++) {
 			
 			System.out.print( arrayCocientes[i]);
-			codNumérica.add(arrayCocientes[i]);
+			codNumerica.add(arrayCocientes[i]);
 		}
 		
 		System.out.println("\nEl array final es: ");
-		for(int i = 0 ; i < codNumérica.size(); i++) {
+		for(int i = 0 ; i < codNumerica.size(); i++) {
 			
-			System.out.print(codNumérica.get(i) +  " ");
+			System.out.print(codNumerica.get(i) +  " ");
+		}
+		
+		//cifro el array enterinni
+		ArrayList<Integer> resultado = new ArrayList<>();
+		//con este tercer bucle, lo que hago es que se vaya de 6 en 6 para hacer las multiplicaciones pertinenetes
+		for(int x = 0 ; x < codNumerica.size() ; x += matrizC[0].length) {	
+			
+			for(int i = 0 ; i < matrizC[0].length; i++) {
+				int suma = 0;
+				for(int j = 0 ; j <  matrizC.length ; j++) {
+						//con el x lo que hago es ir en cada iteracion al bloque k de cada array
+					suma += matrizC[i][j] * codNumerica.get((x+i));
+				}
+				
+				resultado.add(suma%alfabeto.length());
+			}
 		}
 
+		
+		System.out.print("\nEl vector final con modulo " + alfabeto.length() +" es: [ ");
+		for(int x = 0 ; x < resultado.size(); x++) {
+			
+			System.out.print(resultado.get(x) + " ");
+		}
+		
+		System.out.println(" ]");
+		
+		
+		//PASAMOS EL CIFRADO A LETRAS DEL ALFABETO PARA DEJAR EL MENSAJE CIFRADO
+		StringBuilder mensaje = new StringBuilder();
+		for(int i = 0 ; i < resultado.size() ; i++) {
+			mensaje.append(alfabeto.charAt(resultado.get(i)));
+		}
+		
+		System.out.println("Finalmente el mensaje cifrado es: " + mensaje);
 	}
 		
 	
