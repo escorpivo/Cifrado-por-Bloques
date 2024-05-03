@@ -166,6 +166,57 @@ public class Hill {
 	public void descifrar(String alfabeto) {
 		
 		System.out.println("Descifrado Hill");
+		Scanner teclado = new Scanner(System.in);
+		System.out.println("Mensaje para descifrar plis: ");
+		String texto = teclado.nextLine();
+		
+		int[]mensaje = new int[texto.length()];
+		
+		for(int i = 0 ; i < texto.length() ; i++) {
+			mensaje[i] = utilidades.asignarNumerosAlf(alfabeto, texto.charAt(i));
+		}
+		
+		int[][] matrizCInv= utilidades.generarMatriz();
+		
+		int k = matrizCInv.length;
+		
+		System.out.println("K es: " +  k);
+		
+		
+		//cifro el array enterinni
+		ArrayList<Integer> resultado = new ArrayList<>();
+		//con este tercer bucle, lo que hago es que se vaya de 6 en 6 para hacer las multiplicaciones pertinenetes
+		for(int x = 0 ; x < mensaje.length ; x += matrizCInv[0].length) {	
+			
+			for(int i = 0 ; i < matrizCInv[0].length; i++) {
+				int suma = 0;
+				for(int j = 0 ; j <  matrizCInv.length ; j++) {
+						//con el x lo que hago es ir en cada iteracion al bloque k de cada array
+					suma += matrizCInv[i][j] * mensaje[(x+i)];
+				}
+				
+				resultado.add(suma%alfabeto.length());
+			}
+		}
+
+		
+		System.out.print("\nEl vector final con modulo " + alfabeto.length() +" es: [ ");
+		for(int x = 0 ; x < resultado.size(); x++) {
+			
+			System.out.print(resultado.get(x) + " ");
+		}
+		
+		System.out.println(" ]");
+		
+		
+		//PASAMOS EL CIFRADO A LETRAS DEL ALFABETO PARA DEJAR EL MENSAJE CIFRADO
+		StringBuilder mensajeFinal = new StringBuilder();
+		for(int i = 0 ; i < resultado.size() ; i++) {
+			mensajeFinal.append(alfabeto.charAt(resultado.get(i)));
+		}
+		
+		System.out.println("Finalmente el mensaje cifrado es: " + mensajeFinal);
+
 
 		
 	}

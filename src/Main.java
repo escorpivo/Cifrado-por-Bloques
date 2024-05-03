@@ -12,7 +12,7 @@ public class Main {
 		Afin afin = new Afin();
 		
 		//declaro el alfabeto que voy a usar
-		String alfabeto = "aábcdeéfghiíjklmnñoópqrstuúvwxyzAÁBCDEÉFGHIÍJKLMNÑOÓPQRSTUÚVWXYZ0123456789 ,.:;-()¿?" ;
+		String alfabeto = "aábcdeéfghiíjklmnñoópqrstuúvwxyzAÁBCDEÉFGHIÍJKLMNÑOÓPQRSTUÚVWXYZ0123456789 ,.:;-()¿?";
 		
 		if(eleccion == 1) {
 			
