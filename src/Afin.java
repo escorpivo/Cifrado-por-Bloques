@@ -1,9 +1,14 @@
 
 public class Afin {
 	
-	public static void main() {
+	public void cifrar(String alfabeto) {
 		
-		System.out.println("Afin");
+		System.out.println("Hill");
+		
+	}
+	
+	public void descifrar(String alfabeto) {
+		
 	}
 
 }
