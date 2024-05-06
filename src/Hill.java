@@ -4,7 +4,7 @@ public class Hill {
 
 	//declaro metodos globales con utilidades varias para poder usar
 	Utilidades utilidades = new Utilidades();
-
+	private int k;
 	public void cifrar(String alfabeto) {
 		
 		System.out.println("Cifrado Hill");
@@ -16,41 +16,48 @@ public class Hill {
 		
 		int[][] matrizC = utilidades.generarMatriz();
 		
-       /* for (int i = 0; i < matrizC.length; i++) {
+        for (int i = 0; i < matrizC.length; i++) {
             for (int j = 0; j < matrizC[i].length; j++) {
             	
                 System.out.print(matrizC[i][j] + " ");
                 
             }
             System.out.println();
-        }*/
+        }
 		
-		ArrayList<Integer> codNumerica = new ArrayList<>();
+        k = matrizC.length;
+        
+		ArrayList<Integer> bloques = new ArrayList<>();
 		for(int i = 0; i < frase.length() ; i++) {
 			
-			codNumerica.add(utilidades.asignarNumerosAlf(alfabeto, frase.charAt(i)));
+			bloques.add(utilidades.asignarNumerosAlf(alfabeto, frase.charAt(i)));
+		}
+		
+		for(int i = 0; i < bloques.size(); i++) {
+			System.out.print(bloques.get(i) + " ");
 		}
 		
 		
-		int paddingTotal = (6-(codNumerica.size() % matrizC[0].length));
+		int paddingTotal = (k-(bloques.size() % matrizC[0].length));
 		
 		//solo le hago paddin si hay algun bloque suelto, no tengo que rellenar uno vacio
-		if(paddingTotal < 6) {
+		if(paddingTotal < k) {
 			
 			System.out.println("El Padding es: " +  paddingTotal);
 			
 			for(int aux = 0 ; aux < paddingTotal; aux++) {
 				
-				codNumerica.add(utilidades.generarAleatorios(alfabeto.length()));	
+				bloques.add(utilidades.generarAleatorios(alfabeto.length()));	
 			}
 		}
 		
 		//añadimos un último bloque con la longitud del mensaje y relleno de 0´s
 		
 		//imprimo la codificación numérica, con el padding y tal
-		for(int i = 0 ; i < codNumerica.size() ; i++) {
+		System.out.println();
+		for(int i = 0 ; i < bloques.size() ; i++) {
 			
-			System.out.print(codNumerica.get(i) + " ");
+			System.out.print(bloques.get(i) + " ");
 		}
 		
 		
@@ -118,48 +125,81 @@ public class Hill {
 		for(int i = 0 ; i < arrayCocientes.length ; i++) {
 			
 			System.out.print( arrayCocientes[i]);
-			codNumerica.add(arrayCocientes[i]);
+			bloques.add(arrayCocientes[i]);
 		}
 		
 		System.out.println("\nEl array final es: ");
-		for(int i = 0 ; i < codNumerica.size(); i++) {
+		for(int i = 0 ; i < bloques.size(); i++) {
 			
-			System.out.print(codNumerica.get(i) +  " ");
+			System.out.print(bloques.get(i) +  " ");
+		}
+		
+		int numRows = bloques.size() / k;
+		int[][] matrizBloques = new int[numRows][k];
+
+		// Rellenar la matriz con valores de 'bloques'
+		for (int i = 0; i < bloques.size(); i++) {
+		    int row = i / k;
+		    int col = i % k;
+		    matrizBloques[row][col] = bloques.get(i);
 		}
 		
 		//cifro el array enterinni
-		ArrayList<Integer> resultado = new ArrayList<>();
-		//con este tercer bucle, lo que hago es que se vaya de 6 en 6 para hacer las multiplicaciones pertinenetes
-		for(int x = 0 ; x < codNumerica.size() ; x += matrizC[0].length) {	
-			
-			for(int i = 0 ; i < matrizC[0].length; i++) {
-				int suma = 0;
-				for(int j = 0 ; j <  matrizC.length ; j++) {
-						//con el x lo que hago es ir en cada iteracion al bloque k de cada array
-					suma += matrizC[i][j] * codNumerica.get((x+i));
-				}
-				
-				resultado.add(suma%alfabeto.length());
-			}
+		int[][] resultado = new int[numRows][k];
+		for (int i = 0; i < numRows; i++) {
+		    for (int j = 0; j < k; j++) {
+		        int sum = 0;
+		        for (int m = 0; m < k; m++) {
+		            sum += matrizC[j][m] * matrizBloques[i][m];
+		        }
+		        resultado[i][j] = sum % alfabeto.length(); // Aplicar modulo por el tamaño del alfabeto
+		    }
 		}
 
+		System.out.println("\nEL RESULTADO DE LA MULTIPLICACIÓN ES = ");
+		for(int i = 0; i < resultado.length; i++) {
+			for(int j = 0; j < resultado[0].length; j++) {
+				System.out.print(resultado[i][j] + " ");
+			}
+			System.out.println();
+		}
 		
+		
+		//Cojo cada columna de la matriz resultado y lo convierto en vector
+		ArrayList<Integer> posicionesFinales = new ArrayList<Integer>();
+		
+		for(int i = 0; i < resultado.length; i++) {
+			for(int j = 0; j < resultado[0].length; j++) {
+				posicionesFinales.add(resultado[i][j]);
+			}
+		}
+	
+		System.out.println("LAS POSICIONES FINALES SON = ");
+		for(int i = 0; i < posicionesFinales.size(); i++) {
+			System.out.print(posicionesFinales.get(i) + " ");
+		}
+		/*
 		System.out.print("\nEl vector final con modulo " + alfabeto.length() +" es: [ ");
-		for(int x = 0 ; x < resultado.size(); x++) {
+		for(int x = 0 ; x < posicionesFinales.size(); x++) {
 			
-			System.out.print(resultado.get(x) + " ");
+			System.out.print(posicionesFinales.get(x) + " ");
 		}
 		
 		System.out.println(" ]");
-		
+		*/
 		
 		//PASAMOS EL CIFRADO A LETRAS DEL ALFABETO PARA DEJAR EL MENSAJE CIFRADO
 		StringBuilder mensaje = new StringBuilder();
-		for(int i = 0 ; i < resultado.size() ; i++) {
-			mensaje.append(alfabeto.charAt(resultado.get(i)));
+		for(int i = 0; i < posicionesFinales.size(); i++) {
+			for(int j = 0; j < alfabeto.length(); j++) {
+				if(posicionesFinales.get(i) == j) {
+					mensaje.append(alfabeto.charAt(j));
+				}
+			}
 		}
 		
 		System.out.println("Finalmente el mensaje cifrado es: " + mensaje);
+		
 	}
 		
 	
@@ -170,40 +210,77 @@ public class Hill {
 		System.out.println("Mensaje para descifrar plis: ");
 		String texto = teclado.nextLine();
 		
-		int[]mensaje = new int[texto.length()];
+		System.out.println(alfabeto.length());
+		
+		ArrayList<Integer> mensaje = new ArrayList<Integer>();
+		//int[]mensaje = new int[texto.length()];
 		
 		for(int i = 0 ; i < texto.length() ; i++) {
-			mensaje[i] = utilidades.asignarNumerosAlf(alfabeto, texto.charAt(i));
+			mensaje.add(utilidades.asignarNumerosAlf(alfabeto, texto.charAt(i)));
 		}
 		
-		int[][] matrizCInv= utilidades.generarMatriz();
+		int[][] matrizCInv= utilidades.generarInversa();
 		
-		int k = matrizCInv.length;
 		
-		System.out.println("K es: " +  k);
+		k = matrizCInv.length;
 		
+		//Como vamos a tener un bloque extra lo quitamos
+		ArrayList<Integer> bloques = new ArrayList<Integer>();
+		int s = 0;
+		for(int i = 0; i < mensaje.size()-k; i++) {
+			bloques.add(mensaje.get(i));
+		}
+		
+		System.out.println("LAS POSICIONES DEL MENSAJE CODIFICADO SON = ");
+		for(int i = 0; i < bloques.size(); i++) {
+			System.out.print(bloques.get(i) + " ");
+		}
+		
+		
+		int numRows = bloques.size() / k;
+		int[][] matrizBloques = new int[numRows][k];
+
+		// Rellenar la matriz con valores de 'bloques'
+		for (int i = 0; i < bloques.size(); i++) {
+		    int row = i / k;
+		    int col = i % k;
+		    matrizBloques[row][col] = bloques.get(i);
+		}
+		
+		System.out.println("LA MATRIZ QUE SE VA A MULTIPLICAR POR C");
+		for(int i = 0; i < matrizBloques.length; i++) {
+			for(int j= 0; j < matrizBloques[0].length; j++) {
+				System.out.print(matrizBloques[i][j] + " ");
+			}
+			System.out.println();
+		}
 		
 		//cifro el array enterinni
-		ArrayList<Integer> resultado = new ArrayList<>();
-		//con este tercer bucle, lo que hago es que se vaya de 6 en 6 para hacer las multiplicaciones pertinenetes
-		for(int x = 0 ; x < mensaje.length ; x += matrizCInv[0].length) {	
-			
-			for(int i = 0 ; i < matrizCInv[0].length; i++) {
-				int suma = 0;
-				for(int j = 0 ; j <  matrizCInv.length ; j++) {
-						//con el x lo que hago es ir en cada iteracion al bloque k de cada array
-					suma += matrizCInv[i][j] * mensaje[(x+i)];
+		int[][] resultado = new int[numRows][k];
+		for (int i = 0; i < numRows; i++) {
+			for (int j = 0; j < k; j++) {
+				int sum = 0;
+				for (int m = 0; m < k; m++) {
+					sum += matrizCInv[j][m] * matrizBloques[i][m];
 				}
+				    resultado[i][j] = Math.floorMod(sum, alfabeto.length()); // Aplicar modulo por el tamaño del alfabeto
+			}
+		}
+		
+		//Cojo cada columna de la matriz resultado y lo convierto en vector
+		ArrayList<Integer> posicionesFinales = new ArrayList<Integer>();
 				
-				resultado.add(suma%alfabeto.length());
+		for(int i = 0; i < resultado.length; i++) {
+			for(int j = 0; j < resultado[0].length; j++) {
+				posicionesFinales.add(resultado[i][j]);
 			}
 		}
 
 		
 		System.out.print("\nEl vector final con modulo " + alfabeto.length() +" es: [ ");
-		for(int x = 0 ; x < resultado.size(); x++) {
+		for(int x = 0 ; x < posicionesFinales.size(); x++) {
 			
-			System.out.print(resultado.get(x) + " ");
+			System.out.print(posicionesFinales.get(x) + " ");
 		}
 		
 		System.out.println(" ]");
@@ -211,8 +288,12 @@ public class Hill {
 		
 		//PASAMOS EL CIFRADO A LETRAS DEL ALFABETO PARA DEJAR EL MENSAJE CIFRADO
 		StringBuilder mensajeFinal = new StringBuilder();
-		for(int i = 0 ; i < resultado.size() ; i++) {
-			mensajeFinal.append(alfabeto.charAt(resultado.get(i)));
+		for(int i = 0; i < posicionesFinales.size(); i++) {
+			for(int j = 0; j < alfabeto.length(); j++) {
+				if(posicionesFinales.get(i) == j) {
+					mensajeFinal.append(alfabeto.charAt(j));
+				}
+			}
 		}
 		
 		System.out.println("Finalmente el mensaje cifrado es: " + mensajeFinal);
