@@ -5,6 +5,7 @@ public class Hill {
 	//declaro metodos globales con utilidades varias para poder usar
 	Utilidades utilidades = new Utilidades();
 	private int k;
+	
 	public void cifrar(String alfabeto) {
 		
 		System.out.println("Cifrado Hill");
@@ -150,7 +151,7 @@ public class Hill {
 		    for (int j = 0; j < k; j++) {
 		        int sum = 0;
 		        for (int m = 0; m < k; m++) {
-		            sum += matrizC[j][m] * matrizBloques[i][m];
+		            sum += matrizBloques[i][m] * matrizC[m][j];
 		        }
 		        resultado[i][j] = sum % alfabeto.length(); // Aplicar modulo por el tamaño del alfabeto
 		    }
@@ -226,7 +227,7 @@ public class Hill {
 		
 		//Como vamos a tener un bloque extra lo quitamos
 		ArrayList<Integer> bloques = new ArrayList<Integer>();
-		int s = 0;
+		
 		for(int i = 0; i < mensaje.size()-k; i++) {
 			bloques.add(mensaje.get(i));
 		}
@@ -261,7 +262,7 @@ public class Hill {
 			for (int j = 0; j < k; j++) {
 				int sum = 0;
 				for (int m = 0; m < k; m++) {
-					sum += matrizCInv[j][m] * matrizBloques[i][m];
+					sum += matrizBloques[i][m] * matrizCInv[m][j];
 				}
 				    resultado[i][j] = Math.floorMod(sum, alfabeto.length()); // Aplicar modulo por el tamaño del alfabeto
 			}
