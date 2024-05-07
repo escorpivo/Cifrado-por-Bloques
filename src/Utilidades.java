@@ -20,7 +20,7 @@ public class Utilidades {
         */
 		
 		//DATOS MARTES
-		/*
+		
 		//HILL
         String matrizString = "	[63, 57, 3, 29, 46, 35],\r\n"
         		+ "        		[30, 52, 21, 80, 44, 12],\r\n"
@@ -28,14 +28,16 @@ public class Utilidades {
         		+ "       		[77, 11, 82, 74, 46, 53],\r\n"
         		+ "        		[33, 56, 81, 72, 37, 37],\r\n"
         		+ "        		[12, 11, 68, 55, 22, 19]";
-        */
+        
 		//AFIN
-		
+		/*
 		String matrizString = "[50,    25, 0,  81, 4],\r\n"
 				+ "        	   [10,    39, 19, 67, 51],\r\n"
 				+ "        	   [34,    49, 63, 9,  56],\r\n"
 				+ "            [31,    21, 33, 55, 6],\r\n"
 				+ "            [82,    69, 34, 48, 1]";
+				
+				*/
 		
 		//DATOS LUNES
 		/*
@@ -85,7 +87,7 @@ public class Utilidades {
 		*/
 		
 		//DATOS MARTES
-		/*
+		
 		//HILL
         String matrizInversa = "[21, 83, 34, 78, 20, 65],\r\n"
         		+ "        		[67, 74, 45, 78, 64, 27],\r\n"
@@ -93,15 +95,16 @@ public class Utilidades {
         		+ "       		[81, 55, 76, 31, 20, 6],\r\n"
         		+ "        		[31, 33, 29, 41, 59, 45],\r\n"
         		+ "        		[78, 29, 73, 13, 30, 72]";
-        */
+        
 		//AFIN
+		/*
 		
 		String matrizInversa = "[80,	76,	37,	53,	50],\r\n"
 				+ "				[44,	45,	23,	54,	33],\r\n"
 				+ "				[81,	76,	27,	68,	12],\r\n"
 				+ "				[61,	59,	47,	44,	67],\r\n"
 				+ "				[10,	31,	17,	20,	80]";
-		
+		*/
 		//DATOS LUNES
 		/*
 		//HILL
@@ -168,3 +171,56 @@ public class Utilidades {
 	}
 
 }
+
+/*
+ * 		
+		if(cociente > 10000) {
+			
+			arrayCocientes[0] = (cociente / 10000);
+			cociente = cociente - (arrayCocientes[0] * 10000);
+			
+		}else {
+			
+			arrayCocientes[0] = 0;
+		}
+				
+		if(cociente > 1000) {
+			
+			arrayCocientes[1] = (cociente / 1000);
+			cociente = cociente - (arrayCocientes[1] * 1000);
+			
+		}else {
+			
+			arrayCocientes[1] = 0;
+		}
+	
+		if(cociente > 100) {
+			
+			arrayCocientes[2] = (cociente / 100);
+			cociente = cociente - (arrayCocientes[2] * 100);
+			
+		}else {
+			
+			arrayCocientes[2] = 0;
+		}
+				
+		if(cociente > 10) {
+			
+			arrayCocientes[3] = (cociente / 10);
+			cociente = cociente - (arrayCocientes[3] * 10);
+			
+		}else {
+			
+			arrayCocientes[3] = 0;
+		}
+				
+		if(cociente > 0) {
+			
+			arrayCocientes[4] = (cociente);
+			cociente -= cociente;
+		}else {
+			
+			arrayCocientes[4] = 0;
+		}
+		
+ */
